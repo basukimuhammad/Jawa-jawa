@@ -1,0 +1,94 @@
+const html = `<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>JawaScript Playground</title>
+  <style>
+    :root{color-scheme:dark;--bg:#0b1020;--panel:#121a2d;--panel2:#0f1728;--border:#263451;--text:#eef4ff;--muted:#9badc9;--accent:#73a7ff;--good:#69d39c;--bad:#ff8787}
+    *{box-sizing:border-box} body{margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,sans-serif;background:radial-gradient(circle at top,#182544,#0b1020 48%);color:var(--text)}
+    .wrap{max-width:1180px;margin:0 auto;padding:26px}.hero{display:flex;justify-content:space-between;gap:18px;align-items:flex-end;margin-bottom:18px}.eyebrow{font-size:13px;color:var(--accent);font-weight:800;letter-spacing:.08em;text-transform:uppercase}.hero h1{margin:5px 0 8px;font-size:38px}.hero p{margin:0;color:var(--muted);max-width:760px}.badge{border:1px solid var(--border);padding:10px 13px;border-radius:999px;color:var(--muted);font-size:13px}
+    .grid{display:grid;grid-template-columns:1.45fr .85fr;gap:16px}.panel{background:rgba(18,26,45,.9);border:1px solid var(--border);border-radius:18px;overflow:hidden;box-shadow:0 18px 50px rgba(0,0,0,.22)}.panelHead{padding:13px 16px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;gap:10px}.panelHead strong{font-size:14px}.actions{display:flex;gap:8px;flex-wrap:wrap}.btn{border:1px solid var(--border);background:#17223a;color:var(--text);padding:9px 12px;border-radius:10px;font-weight:700;cursor:pointer}.btn.primary{background:var(--accent);color:#071326;border-color:transparent}.btn.danger{color:#ffd0d0}.editor{padding:14px}.editor textarea{width:100%;min-height:430px;resize:vertical;border:0;outline:0;background:#0a1120;color:#dbe8ff;border-radius:12px;padding:16px;font:500 14px/1.65 ui-monospace,SFMono-Regular,Menlo,monospace;tab-size:2}.status{padding:10px 14px;color:var(--muted);font-size:12px;border-top:1px solid var(--border)}
+    .side{display:flex;flex-direction:column;gap:16px}.console{min-height:180px;padding:14px;font:13px/1.6 ui-monospace,SFMono-Regular,Menlo,monospace;background:#0a1120;color:#dbe8ff;white-space:pre-wrap;word-break:break-word}.console.empty{color:#7183a3}.error{color:var(--bad)}.good{color:var(--good)}
+    select{width:100%;background:#0f1728;color:var(--text);border:1px solid var(--border);border-radius:10px;padding:10px}.docs{padding:14px;color:var(--muted);font-size:13px;line-height:1.7}.docs code{color:#dfeaff;background:#0a1120;padding:2px 5px;border-radius:5px}.chips{display:flex;flex-wrap:wrap;gap:7px;margin-top:8px}.chip{border:1px solid var(--border);border-radius:999px;padding:5px 8px;color:#c8d7f0;font-size:12px}
+    @media(max-width:900px){.grid{grid-template-columns:1fr}.hero{align-items:flex-start;flex-direction:column}.hero h1{font-size:30px}.editor textarea{min-height:350px}.wrap{padding:16px}}
+  </style>
+</head>
+<body>
+<div class="wrap">
+  <div class="hero">
+    <div><div class="eyebrow">Bahasa pemrograman Jawa</div><h1>JawaScript Playground</h1><p>Tulis kode nganggo keyword Jawa, jalankan, dan lihat hasilnya. Cocok untuk belajar variabel, kondisi, fungsi, perulangan, array, object, hingga logika dasar.</p></div>
+    <div class="badge">Vercel • JawaScript</div>
+  </div>
+  <div class="grid">
+    <section class="panel">
+      <div class="panelHead"><strong>Editor .jawa</strong><div class="actions"><button class="btn" onclick="muatContoh()">Contoh</button><button class="btn" onclick="bersih()">Bersihkan</button><button class="btn primary" onclick="jalankan()">▶ Jalankan</button></div></div>
+      <div class="editor"><textarea id="kode" spellcheck="false" aria-label="Editor JawaScript">tetep jeneng = "JawaScript";
+ono umur = 17;
+
+fungsi salam(nama) {
+  tampilno("Halo, " + nama + "!");
+}
+
+yen (umur >= 17 lan ora (umur > 100)) {
+  salam(jeneng);
+} liyane yen (umur >= 13) {
+  tampilno("Kowe isih enom.");
+} yen ora {
+  tampilno("Sugeng rawuh!");
+}
+
+kanggo (ono i = 1; i <= 3; i++) {
+  tampilno("Perulangan: " + i);
+}</textarea></div>
+      <div class="status" id="status">Siap. Kode berjalan di server sandbox dengan batas waktu.</div>
+    </section>
+    <aside class="side">
+      <section class="panel"><div class="panelHead"><strong>Console Output</strong><button class="btn" onclick="salinOutput()">Salin</button></div><div id="output" class="console empty">Belum ada output.</div></section>
+      <section class="panel"><div class="panelHead"><strong>Contoh program</strong></div><div style="padding:14px"><select id="contoh" onchange="pilihContoh(this.value)"><option value="basic">Variabel & output</option><option value="kondisi">Kondisi</option><option value="fungsi">Fungsi</option><option value="loop">Perulangan</option><option value="array">Array</option><option value="object">Object</option></select></div></section>
+      <section class="panel"><div class="panelHead"><strong>Keyword JawaScript</strong></div><div class="docs"><div class="chips"><span class="chip">ono</span><span class="chip">tetep</span><span class="chip">yen</span><span class="chip">liyane yen</span><span class="chip">yen ora</span><span class="chip">fungsi</span><span class="chip">bali</span><span class="chip">kanggo</span><span class="chip">nalika</span><span class="chip">tampilno</span><span class="chip">mandheg</span><span class="chip">terus</span><span class="chip">anyar</span><span class="chip">bener</span><span class="chip">salah</span><span class="chip">kosong</span><span class="chip">lan</span><span class="chip">utawa</span><span class="chip">ora</span></div><p>JawaScript adalah sintaks JavaScript yang memakai keyword Jawa. JavaScript biasa tetap boleh digunakan untuk operasi, array, object, dan API yang kamu perlukan.</p></div></section>
+    </aside>
+  </div>
+</div>
+<script>
+const CONTOH = {
+  basic: "tetep jeneng = \"JawaScript\";\nono umur = 17;\ntampilno(\"Jeneng: \" + jeneng);\ntampilno(\"Umur: \" + umur);",
+  kondisi: "tetep nilai = 82;\n\nyen (nilai >= 90) {\n  tampilno(\"Apik banget\");\n} liyane yen (nilai >= 75) {\n  tampilno(\"Apik\");\n} yen ora {\n  tampilno(\"Ayo sinau maneh\");\n}",
+  fungsi: "fungsi tambah(a, b) {\n  bali a + b;\n}\n\nono hasil = tambah(7, 5);\ntampilno(\"Hasil: \" + hasil);",
+  loop: "kanggo (ono i = 1; i <= 5; i++) {\n  yen (i === 4) {\n    terus;\n  }\n  tampilno(\"Nomor \" + i);\n}",
+  array: "tetep buah = [\"apel\", \"jeruk\", \"mangga\"];\nkanggo (ono i = 0; i < buah.length; i++) {\n  tampilno((i + 1) + \". \" + buah[i]);\n}",
+  object: "tetep wong = {\n  jeneng: \"Basuki\",\n  umur: 17\n};\n\ntampilno(wong.jeneng);\ntampilno(wong.umur);"
+};
+
+function pilihContoh(n){document.getElementById('kode').value=CONTOH[n] || CONTOH.basic; setStatus('Contoh dimuat.');}
+function muatContoh(){pilihContoh(document.getElementById('contoh').value);}
+function bersih(){document.getElementById('kode').value=''; document.getElementById('output').textContent='Belum ada output.'; document.getElementById('output').className='console empty'; setStatus('Editor dibersihkan.');}
+function setStatus(t,good=false){const el=document.getElementById('status');el.textContent=t;el.className='status '+(good?'good':'');}
+async function jalankan(){
+  const kode=document.getElementById('kode').value; const out=document.getElementById('output');
+  if(!kode.trim()){out.textContent='Kode masih kosong.';out.className='console error';setStatus('Tidak ada kode untuk dijalankan.');return;}
+  out.textContent='Menjalankan...';out.className='console';setStatus('Sedang menjalankan kode...');
+  try{
+    const r=await fetch('/api/run',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({code:kode})});
+    const data=await r.json();
+    if(data.ok){out.textContent=data.output || '(tidak ada output)';out.className='console';setStatus('Berhasil dijalankan.',true)}
+    else {out.textContent=(data.error || 'Terjadi kesalahan');out.className='console error';setStatus('Kode menghasilkan error.');}
+  }catch(e){out.textContent=e.message;out.className='console error';setStatus('Tidak bisa terhubung ke runtime.');}
+}
+async function salinOutput(){try{await navigator.clipboard.writeText(document.getElementById('output').textContent);setStatus('Output berhasil disalin.',true)}catch(e){setStatus('Clipboard tidak tersedia di browser ini.')}}
+</script>
+</body>
+</html>`;
+
+function kirim(res, status, body, type = 'application/json') {
+  res.statusCode = status;
+  res.setHeader('Content-Type', type + '; charset=utf-8');
+  res.setHeader('Cache-Control', 'no-store');
+  res.end(type === 'application/json' ? JSON.stringify(body) : body);
+}
+
+if (req.method === 'GET' && (req.url === '/' || req.url === '')) {
+  kirim(res, 200, html, 'text/html');
+} yen ora {
+  kirim(res, 404, { sukses: salah, pesan: 'Halaman tidak ditemukan' });
+}
