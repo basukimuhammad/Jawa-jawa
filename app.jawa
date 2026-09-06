@@ -32,7 +32,7 @@ const halaman = `<!doctype html>
         <button class="clear" onclick="hapusRampung()">Bersihkan selesai</button>
       </div>
       <div id="daftar"></div>
-      <div class="footer"><span id="jumlah">0 catatan</span><span>JawaScript + Vercel</span></div>
+      <div class="footer"><span id="jumlah">0 catatan</span><span>JawaScript</span></div>
     </div>
   </div>
 <script>
